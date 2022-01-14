@@ -54,7 +54,7 @@ public class RockPaperScissors extends Application {
         computerResult.setTextFill(Color.YELLOW);
 
         BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-        BackgroundImage backgroundImage = new BackgroundImage(backImage, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        BackgroundImage backgroundImage = new BackgroundImage(whiteBack, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         Background background = new Background(backgroundImage);
 
         GridPane grid = new GridPane();
@@ -66,11 +66,6 @@ public class RockPaperScissors extends Application {
 
         Button newGameBtn = new Button();
         newGameBtn.setText("New Game");
-
-        Button rockBtn = new Button();
-        rockBtn.setText("  Rock  ");
-        Button scissorsBtn = new Button();
-        scissorsBtn.setText("Scissors");
 
         grid.setBackground(background);
         grid.add(playerLabel, 0, 1);
@@ -96,6 +91,18 @@ public class RockPaperScissors extends Application {
         paperBtn.setText("  Paper ");
         paperBtn.setOnAction((event) -> {
             playerPane.setBackground(displayOfChoices.paperDisplay());
+        });
+
+        Button rockBtn = new Button();
+        rockBtn.setText("  Rock  ");
+        rockBtn.setOnAction((event) -> {
+            playerPane.setBackground(displayOfChoices.rockDisplay());
+        });
+
+        Button scissorsBtn = new Button();
+        scissorsBtn.setText("Scissors");
+        scissorsBtn.setOnAction((event) -> {
+            playerPane.setBackground(displayOfChoices.scissorsDisplay());
         });
 
         GridPane buttonsGrid = new GridPane();
