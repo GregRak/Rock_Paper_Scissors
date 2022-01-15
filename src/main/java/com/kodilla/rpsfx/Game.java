@@ -42,13 +42,13 @@ public class Game {
     public String gamePlay(int playerPlay, int computerPlay) {
         String result = "";
         if(playerPlay == computerPlay) {
-            result = "Draw!!!";
+            result = "   Draw!!!";
          } else if(playerPlay == 1 && computerPlay == 3 || playerPlay == 2 && computerPlay == 1 || playerPlay == 3 && computerPlay == 2) {
             this.numberOfPlayerWins++;
-            result =  "You win!!!";
+            result =  "  You win!!!";
         } else {
             this.numberOfComputerWins++;
-            result = "You lose!!!";
+            result = " You lose!!!";
         }
         return result;
     }
