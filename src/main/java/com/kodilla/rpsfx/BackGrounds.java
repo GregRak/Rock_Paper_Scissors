@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
 public class BackGrounds {
-   // private Image whiteBack = new Image("file:src/main/resources/white_back.png");
     private Image whiteBack = new Image("file:src/main/resources/back_blue2.jpg");
     private DisplayOfChoices displayOfChoices = new DisplayOfChoices();
 
