@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -16,36 +17,46 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class RockPaperScissors extends Application {
 
-    private final Label titleLabel = new Label("Paper Rock Scissors");
-    private final Label enterName = new Label("Enter your Name (max. 8 chars)");
+    private Label titleLabel = new Label("Paper Rock Scissors");
+    private Label enterName = new Label("Enter your Name (max. 8 chars)");
     private Label playerLabel = new Label();
-    private final Label computerLabel = new Label("Computer");
-    private final Label result = new Label("Result");
+    private Label computerLabel = new Label("Computer");
+    private Label result = new Label("Result");
     private Label playerResult = new Label();
     private Label computerResult = new Label();
     private Label resultPrintOut = new Label();
     private ImageView playerAvatar = new ImageView("file:src/main/resources/face_2.png");
     private ImageView computerAvatar = new ImageView("file:src/main/resources/computer_2.png");
-    private ImageView playerPlay = new ImageView();
-    private ImageView paper = new ImageView("file:src/main/resources/paper.png");
-    private ImageView computerPlay = new ImageView();
+    private Pane computerPane = new Pane();
+    private Random generator = new Random();
+    private DisplayOfChoices displayOfChoices = new DisplayOfChoices();
+    private Game game = new Game();
+    private BackGrounds backGrounds = new BackGrounds();
+    private int computerPlay;
 
     public static void main(String[] args) {
         launch(args);
     }
 
+    public void computerPlay() {
+    int computerPlay = (generator.nextInt(3)) + 1;
+    System.out.println(computerPlay);
+        if (computerPlay == 1) {
+        computerPane.setBackground(displayOfChoices.rockDisplay());
+        } else if(computerPlay == 2) {
+        computerPane.setBackground(displayOfChoices.paperDisplay());
+            } else {
+        computerPane.setBackground(displayOfChoices.scissorsDisplay());
+            }
+         this.computerPlay = computerPlay;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        DisplayOfChoices displayOfChoices = new DisplayOfChoices();
-        Game game = new Game();
-        Random generator = new Random();
-        BackGrounds backGrounds = new BackGrounds();
-
 
         playerLabel.setFont(new Font("Arial", 15));
         playerLabel.setTextFill(Color.AQUAMARINE);
@@ -83,7 +94,7 @@ public class RockPaperScissors extends Application {
         });
 
         Button exitBtn = new Button();
-        exitBtn.setMinWidth(70);
+        exitBtn.setMinWidth(40);
         exitBtn.setText("Quit");
         exitBtn.setOnAction((event) -> {
             Platform.exit();
@@ -97,7 +108,7 @@ public class RockPaperScissors extends Application {
         grid.setVgap(5.5);
 
 
-   //     grid.setGridLinesVisible(true);
+        grid.setGridLinesVisible(true);
 
         playerResult.setText(game.numberOfPlayerWinsToString());
         computerResult.setText(game.numberOfComputerWinsToString());
@@ -113,13 +124,13 @@ public class RockPaperScissors extends Application {
         grid.add(resultPrintOut, 2, 2, 3, 1);
         grid.add(exitBtn, 6 , 3);
 
-        AtomicReference<Pane> playerPane = new AtomicReference<>(new Pane());
-        playerPane.get().setPrefSize(256, 256);
-        grid.add(playerPane.get(), 1, 2);
+        Pane playerPane = new Pane();
+        playerPane.setPrefSize(256, 256);
+        grid.add(playerPane, 1, 2);
 
-        AtomicReference<Pane> computerPane = new AtomicReference<>(new Pane());
-        computerPane.get().setPrefSize(256, 256);
-        grid.add(computerPane.get(), 5, 2);
+
+        computerPane.setPrefSize(256, 256);
+        grid.add(computerPane, 5, 2);
 
 
 
@@ -130,18 +141,19 @@ public class RockPaperScissors extends Application {
         Button paperBtn = new Button();
         paperBtn.setText("  Paper ");
         paperBtn.setOnAction((event) -> {
-            playerPane.get().setBackground(displayOfChoices.paperDisplay());
+            playerPane.setBackground(displayOfChoices.paperDisplay());
             int playerPlay = 2;
-            int computerPlay = (generator.nextInt(3)) + 1;
-            System.out.println(computerPlay);
-            if (computerPlay == 1) {
-                computerPane.get().setBackground(displayOfChoices.rockDisplay());
-            } else if(computerPlay == 2) {
-                computerPane.get().setBackground(displayOfChoices.paperDisplay());
-            } else if(computerPlay == 3){
-                computerPane.get().setBackground(displayOfChoices.scissorsDisplay());
-            }
-            resultPrintOut.setText(game.gamePlay(playerPlay, computerPlay));
+            computerPlay();
+//            int computerPlay = (generator.nextInt(3)) + 1;
+//            System.out.println(computerPlay);
+//            if (computerPlay == 1) {
+//                computerPane.setBackground(displayOfChoices.rockDisplay());
+//            } else if(computerPlay == 2) {
+//                computerPane.setBackground(displayOfChoices.paperDisplay());
+//            } else {
+//                computerPane.setBackground(displayOfChoices.scissorsDisplay());
+//            }
+            resultPrintOut.setText(game.gamePlay(playerPlay, this.computerPlay));
             playerResult.setText(game.numberOfPlayerWinsToString());
             computerResult.setText(game.numberOfComputerWinsToString());
         });
@@ -149,18 +161,19 @@ public class RockPaperScissors extends Application {
         Button rockBtn = new Button();
         rockBtn.setText("  Rock  ");
         rockBtn.setOnAction((event) -> {
-            playerPane.get().setBackground(displayOfChoices.rockDisplay());
+            playerPane.setBackground(displayOfChoices.rockDisplay());
             int playerPlay = 1;
-            int computerPlay = (generator.nextInt(3)) + 1;
-            System.out.println(computerPlay);
-            if (computerPlay == 1) {
-                computerPane.get().setBackground(displayOfChoices.rockDisplay());
-            } else if(computerPlay == 2) {
-                computerPane.get().setBackground(displayOfChoices.paperDisplay());
-            } else if(computerPlay == 3){
-                computerPane.get().setBackground(displayOfChoices.scissorsDisplay());
-            }
-            resultPrintOut.setText(game.gamePlay(playerPlay, computerPlay));
+            computerPlay();
+//            int computerPlay = (generator.nextInt(3)) + 1;
+//            System.out.println(computerPlay);
+//            if (computerPlay == 1) {
+//                computerPane.setBackground(displayOfChoices.rockDisplay());
+//            } else if(computerPlay == 2) {
+//                computerPane.setBackground(displayOfChoices.paperDisplay());
+//            } else {
+//                computerPane.setBackground(displayOfChoices.scissorsDisplay());
+//            }
+            resultPrintOut.setText(game.gamePlay(playerPlay, this.computerPlay));
             playerResult.setText(game.numberOfPlayerWinsToString());
             computerResult.setText(game.numberOfComputerWinsToString());
         });
@@ -168,18 +181,19 @@ public class RockPaperScissors extends Application {
         Button scissorsBtn = new Button();
         scissorsBtn.setText("Scissors");
         scissorsBtn.setOnAction((event) -> {
-            playerPane.get().setBackground(displayOfChoices.scissorsDisplay());
+            playerPane.setBackground(displayOfChoices.scissorsDisplay());
             int playerPlay = 3;
-            int computerPlay = (generator.nextInt(3)) + 1;
-            System.out.println(computerPlay);
-            if (computerPlay == 1) {
-                computerPane.get().setBackground(displayOfChoices.rockDisplay());
-            } else if(computerPlay == 2) {
-                computerPane.get().setBackground(displayOfChoices.paperDisplay());
-            } else if(computerPlay == 3){
-                computerPane.get().setBackground(displayOfChoices.scissorsDisplay());
-            }
-            resultPrintOut.setText(game.gamePlay(playerPlay, computerPlay));
+            computerPlay();
+//            int computerPlay = (generator.nextInt(3)) + 1;
+//            System.out.println(computerPlay);
+//            if (computerPlay == 1) {
+//                computerPane.setBackground(displayOfChoices.rockDisplay());
+//            } else if(computerPlay == 2) {
+//                computerPane.setBackground(displayOfChoices.paperDisplay());
+//            } else {
+//                computerPane.setBackground(displayOfChoices.scissorsDisplay());
+//            }
+            resultPrintOut.setText(game.gamePlay(playerPlay, this.computerPlay));
             playerResult.setText(game.numberOfPlayerWinsToString());
             computerResult.setText(game.numberOfComputerWinsToString());
         });
@@ -197,11 +211,12 @@ public class RockPaperScissors extends Application {
         buttonsGrid.setHgap(20.0);
         buttonsGrid.add(newGameBtn,0,0);
         buttonsGrid.add(resetBtn, 1, 0);
+        buttonsGrid.add(exitBtn, 2, 0);
         grid.add(buttonsGrid, 5, 3);
 
         grid.setHalignment(playerAvatar, HPos.CENTER);
         grid.setHalignment(computerAvatar, HPos.CENTER);
-        grid.setHalignment(newGameBtn, HPos.CENTER);
+ //       grid.setHalignment(newGameBtn, HPos.CENTER);
 
         Scene gameScene = new Scene(grid, 800, 450, Color.BLACK);
 
