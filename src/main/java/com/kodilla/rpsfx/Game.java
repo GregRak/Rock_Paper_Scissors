@@ -24,6 +24,18 @@ public class Game {
         return playerName;
     }
 
+    public int getNumberOfPlayerWins() {
+        return numberOfPlayerWins;
+    }
+
+    public int getNumberOfComputerWins() {
+        return numberOfComputerWins;
+    }
+
+    public int getNumberOfRounds() {
+        return numberOfRounds;
+    }
+
     public void setNumberOfRounds(int numberOfRounds) {
         this.numberOfRounds = numberOfRounds;
     }
