@@ -19,7 +19,6 @@ import java.util.Random;
 
 public class ScenesPainter {
 
-
         private final Label titleLabel = new Label("Paper Rock Scissors");
         private final Label enterName = new Label("Enter your Name (max. 8 chars)");
         private Label playerLabel = new Label();
@@ -40,8 +39,8 @@ public class ScenesPainter {
         private int computerPlay;
         private int playerPlay;
 
-
-        public void computerPlay() {
+        //Computer "choice" printing method
+        public void computerPlayPrinter() {
             int computerPlay = (generator.nextInt(3)) + 1;
             System.out.println(computerPlay);
             if (computerPlay == 1) {
@@ -54,13 +53,15 @@ public class ScenesPainter {
             this.computerPlay = computerPlay;
         }
 
-        public void resultPrinter() {
+        //Method displaying the result and the number of rounds
+        public void gamePlayAndResultPrinter() {
             resultPrintOut.setText(game.gamePlay(this.playerPlay, this.computerPlay));
             playerResult.setText(game.numberOfPlayerWinsToString());
             computerResult.setText(game.numberOfComputerWinsToString());
             numberOfRoundLabel.setText("Round: " + game.numberOfRoundsToString());
         }
 
+        //Method that resets the game
         public void resultsReset() {
             game.setNumberOfPlayerWins(0);
             game.setNumberOfComputerWins(0);
@@ -136,8 +137,8 @@ public class ScenesPainter {
             paperBtn.setOnAction((event) -> {
                 playerPane.setBackground(displayOfChoices.paperDisplay());
                 this.playerPlay = 2;
-                computerPlay();
-                resultPrinter();
+                computerPlayPrinter();
+                gamePlayAndResultPrinter();
             });
 
             Button rockBtn = new Button();
@@ -145,8 +146,8 @@ public class ScenesPainter {
             rockBtn.setOnAction((event) -> {
                 playerPane.setBackground(displayOfChoices.rockDisplay());
                 this.playerPlay = 1;
-                computerPlay();
-                resultPrinter();
+                computerPlayPrinter();
+                gamePlayAndResultPrinter();
             });
 
             Button scissorsBtn = new Button();
@@ -154,8 +155,8 @@ public class ScenesPainter {
             scissorsBtn.setOnAction((event) -> {
                 playerPane.setBackground(displayOfChoices.scissorsDisplay());
                 this.playerPlay = 3;
-                computerPlay();
-                resultPrinter();
+                computerPlayPrinter();
+                gamePlayAndResultPrinter();
             });
 
             //Arrangement of the player's choice buttons
@@ -203,16 +204,19 @@ public class ScenesPainter {
 
             TextField textField = new TextField();
 
+
+            //Buttons
             Button btnOK = new Button();
             btnOK.setText("OK");
             btnOK.setOnAction((event) -> {
                 String playerName = textField.getText();
                 if(playerName.isEmpty()) {
-                    Label nameWarning = new Label();
-                    nameWarning.setText("Enter your name, please");
-                    nameWarning.setTextFill(Color.BLACK);
-                    nameWarning.setFont(new Font("Arial", 15));
-                    firstSceneGrid.add(nameWarning, 1, 5);
+                    textField.setPromptText("Enter your name, please");
+//                    Label nameWarning = new Label();
+//                    nameWarning.setText("Enter your name, please");
+//                    nameWarning.setTextFill(Color.BLACK);
+//                    nameWarning.setFont(new Font("Arial", 15));
+//                    firstSceneGrid.add(nameWarning, 1, 5);
                 } else {
                     if(playerName.length() > 8) {
                         playerName = playerName.substring(0, 8);
@@ -231,6 +235,7 @@ public class ScenesPainter {
             exitBtn.setText("Quit");
             exitBtn.setOnAction((event) -> Platform.exit());
 
+            //adding elements to the first scene grid
             firstSceneGrid.add(backGrounds.paperBack(), 0, 0);
             firstSceneGrid.add(backGrounds.rockBack(), 1 , 0);
             firstSceneGrid.add(backGrounds.scissorsBack(), 2, 0);
