@@ -111,4 +111,20 @@ public class RpsFXTestSuite {
         assertEquals(3, numberOfComputerWinsResult);
         assertNotEquals(notExpectedResult, resultOne);
     }
+
+    @Test
+    void endGameTest() {
+        //Given
+        Game game = new Game();
+        int playerChoiceOne = 1; //rock
+        int playerChoiceTwo = 2; //paper
+        int playerChoiceThree = 3; //scissors
+        int computerChoiceOne = 1; //rock
+        int computerChoiceTwo = 2; //paper
+        int computerChoiceThree = 3; //scissors
+        String expectedResult = "  You win!!!";
+        //When
+        String resultOne = game.gamePlay(playerChoiceOne, computerChoiceTwo);
+        //Then
+    }
 }

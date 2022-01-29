@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -38,8 +39,12 @@ public class ScenesPainter {
         private BackGrounds backGrounds = new BackGrounds();
         private int computerPlay;
         private int playerPlay;
+        TextField textField = new TextField();
+        private Label endGameResult = new Label();
+        private Scene firstScene;
 
-        //Computer "choice" printing method
+
+    //Computer "choice" printing method
         public void computerPlayPrinter() {
             int computerPlay = (generator.nextInt(3)) + 1;
             System.out.println(computerPlay);
@@ -74,6 +79,23 @@ public class ScenesPainter {
             resultPrintOut.setText("");
         }
 
+        //Method
+        public boolean startGame() {
+            String playerName = textField.getText();
+            if (playerName.isEmpty()) {
+                textField.setPromptText("Enter your name, please");
+                return false;
+            } else {
+                if (playerName.length() > 8) {
+                    playerName = playerName.substring(0, 8);
+                }
+                game.setPlayerName(playerName);
+                playerLabel.setText(game.getPlayerName());
+                resultsReset();
+                return true;
+            }
+        }
+
         public void painter(Stage primaryStage) {
 
             //Game Scene
@@ -82,7 +104,7 @@ public class ScenesPainter {
             gameGrid.setPadding(new Insets(11.5, 12.5, 13.5, 14.5));
             gameGrid.setHgap(5.5);
             gameGrid.setVgap(5.5);
-            gameGrid.setBackground(backGrounds.gameBackground);
+            gameGrid.setBackground(backGrounds.getGameBackground());
 
             //Labels
             playerLabel.setFont(new Font("Arial", 15));
@@ -139,6 +161,11 @@ public class ScenesPainter {
                 this.playerPlay = 2;
                 computerPlayPrinter();
                 gamePlayAndResultPrinter();
+                System.out.println(game.getNumberOfWinsToEnd());
+                if(game.getNumberOfPlayerWins() == game.getNumberOfWinsToEnd() || game.getNumberOfComputerWins() == game.getNumberOfWinsToEnd()) {
+                    endGame(primaryStage);
+                  //  endGame.endGame(primaryStage);
+                }
             });
 
             Button rockBtn = new Button();
@@ -148,6 +175,10 @@ public class ScenesPainter {
                 this.playerPlay = 1;
                 computerPlayPrinter();
                 gamePlayAndResultPrinter();
+                if(game.getNumberOfPlayerWins() == game.getNumberOfWinsToEnd() || game.getNumberOfComputerWins() == game.getNumberOfWinsToEnd()) {
+                    endGame(primaryStage);
+                    //endGame.endGame(primaryStage);
+                }
             });
 
             Button scissorsBtn = new Button();
@@ -157,6 +188,9 @@ public class ScenesPainter {
                 this.playerPlay = 3;
                 computerPlayPrinter();
                 gamePlayAndResultPrinter();
+                if(game.getNumberOfPlayerWins() == game.getNumberOfWinsToEnd() || game.getNumberOfComputerWins() == game.getNumberOfWinsToEnd()) {
+                    endGame(primaryStage);
+                }
             });
 
             //Arrangement of the player's choice buttons
@@ -195,56 +229,93 @@ public class ScenesPainter {
             Scene gameScene = new Scene(gameGrid, 800, 450, Color.BLACK);
 
             //First Scene
+            Label numberOfRoundsChoice = new Label("Choose the number of wins");
             titleLabel.setFont(new Font("Arial", 25));
             titleLabel.setTextFill(Color.BLACK);
 
             GridPane firstSceneGrid = new GridPane();
-            firstSceneGrid.setBackground(backGrounds.firstSceneBackground);
+            firstSceneGrid.setBackground(backGrounds.getGameBackground());
             firstSceneGrid.setAlignment(Pos.CENTER);
 
-            TextField textField = new TextField();
-
-
             //Buttons
-            Button btnOK = new Button();
-            btnOK.setText("OK");
-            btnOK.setOnAction((event) -> {
-                String playerName = textField.getText();
-                if(playerName.isEmpty()) {
-                    textField.setPromptText("Enter your name, please");
-//                    Label nameWarning = new Label();
-//                    nameWarning.setText("Enter your name, please");
-//                    nameWarning.setTextFill(Color.BLACK);
-//                    nameWarning.setFont(new Font("Arial", 15));
-//                    firstSceneGrid.add(nameWarning, 1, 5);
-                } else {
-                    if(playerName.length() > 8) {
-                        playerName = playerName.substring(0, 8);
-                    }
-                    game.setPlayerName(playerName);
-                    playerLabel.setText(game.getPlayerName());
-                    resultsReset();
+            Button oneWinBtn = new Button();
+            oneWinBtn.setMinWidth(55);
+            oneWinBtn.setText("1");
+            oneWinBtn.setOnAction((event) -> {
+                if (startGame()) {
+                    game.setNumberOfWinsToEnd(1);
                     primaryStage.setScene(gameScene);
                     primaryStage.setTitle("Rock Paper Scissors");
                     primaryStage.show();
                 }
             });
 
+            Button fiveWinBtn = new Button();
+            fiveWinBtn.setMinWidth(55);
+            fiveWinBtn.setText("5");
+            fiveWinBtn.setOnAction((event) -> {
+                if (startGame()) {
+                    game.setNumberOfWinsToEnd(5);
+                    primaryStage.setScene(gameScene);
+                    primaryStage.setTitle("Rock Paper Scissors");
+                    primaryStage.show();
+                }
+            });
+
+            Button tenWinBtn = new Button();
+            tenWinBtn.setMinWidth(55);
+            tenWinBtn.setText("10");
+            tenWinBtn.setOnAction((event) -> {
+                if (startGame()) {
+                    game.setNumberOfWinsToEnd(10);
+                    primaryStage.setScene(gameScene);
+                    primaryStage.setTitle("Rock Paper Scissors");
+                    primaryStage.show();
+                }
+            });
+
+            Button infinityBtn = new Button();
+            infinityBtn.setMinWidth(55);
+            infinityBtn.setText("No limit");
+            infinityBtn.setOnAction((event) -> {
+                if (startGame()) {
+                    game.setNumberOfWinsToEnd(Integer.MAX_VALUE);
+                    primaryStage.setScene(gameScene);
+                    primaryStage.setTitle("Rock Paper Scissors");
+                    primaryStage.show();
+                }
+            });
+
+            HBox numberOfRoondsButtonsBox = new HBox(3);
+            numberOfRoondsButtonsBox.getChildren().addAll(oneWinBtn, fiveWinBtn, tenWinBtn, infinityBtn);
+
             Button exitBtn = new Button();
             exitBtn.setMinWidth(70);
             exitBtn.setText("Quit");
             exitBtn.setOnAction((event) -> Platform.exit());
+
+            Button infoBtn = new Button();
+            infoBtn.setMinWidth(70);
+            infoBtn.setText("Rules");
+
+            HBox functionalButtonsBox = new HBox(3);
+            functionalButtonsBox.getChildren().addAll(infoBtn, exitBtn);
+            functionalButtonsBox.setAlignment(Pos.CENTER);
 
             //adding elements to the first scene grid
             firstSceneGrid.add(backGrounds.paperBack(), 0, 0);
             firstSceneGrid.add(backGrounds.rockBack(), 1 , 0);
             firstSceneGrid.add(backGrounds.scissorsBack(), 2, 0);
             firstSceneGrid.add(titleLabel, 1, 1);
-            firstSceneGrid.addRow(2, backGrounds.emptyPane());
+            firstSceneGrid.addRow(2, backGrounds.emptyPane()); //emptyPane size to modify
             firstSceneGrid.add(enterName, 1, 3);
             firstSceneGrid.add(textField, 1, 4);
-            firstSceneGrid.add(btnOK, 2,4);
-            firstSceneGrid.add(exitBtn, 1 , 6);
+            firstSceneGrid.addRow(5, backGrounds.emptyPane());
+            firstSceneGrid.add(numberOfRoundsChoice, 1, 6);
+            firstSceneGrid.add(numberOfRoondsButtonsBox, 1, 7);
+            firstSceneGrid.addRow(8, backGrounds.emptyPane());
+            firstSceneGrid.add(functionalButtonsBox, 1, 9);
+         //   firstSceneGrid.add(exitBtn, 1 , 9);
 
             Scene firstScene = new Scene(firstSceneGrid, 800, 450, Color.BLACK);
 
@@ -254,9 +325,63 @@ public class ScenesPainter {
                 primaryStage.setTitle("Rock Paper Scissors");
                 primaryStage.show();
             });
-
+            this.firstScene = firstScene;
             primaryStage.setScene(firstScene);
             primaryStage.setTitle("Rock Paper Scissors");
             primaryStage.show();
         }
+
+    public void endGame(Stage endStage) {
+        GridPane endGameGrid = new GridPane();
+        endGameGrid.setBackground(backGrounds.getGameBackground());
+        endGameGrid.setAlignment(Pos.CENTER);
+
+        endGameResult.setFont(new Font("Arial", 20));
+        endGameResult.setTextFill(Color.YELLOW);
+        endGameResult.setAlignment(Pos.CENTER);
+        if(game.getNumberOfPlayerWins() > game.getNumberOfComputerWins()){
+            endGameResult.setText("     Congratulations!!!\n           You win!!!");
+        } else {
+            endGameResult.setText("        You loose!!!\n          Try again!");
+        }
+
+        //Buttons
+        Button endNewGameBtn = new Button();
+        endNewGameBtn.setText("New game");
+        endNewGameBtn.setMinWidth(70);
+        endNewGameBtn.setOnAction((event) -> {
+            endStage.setScene(firstScene);
+            endStage.setTitle("Rock Paper Scissors");
+            endStage.show();
+        });
+
+        Button endQuitGameBtn = new Button();
+        endQuitGameBtn.setText("Quit");
+        endQuitGameBtn.setMinWidth(70);
+        endQuitGameBtn.setOnAction((event) -> Platform.exit());
+
+        //Box with buttons
+        HBox endButtonsBox = new HBox(10);
+        endButtonsBox.setAlignment(Pos.CENTER);
+        endButtonsBox.getChildren().addAll(endNewGameBtn, endQuitGameBtn);
+
+        //adding elements to the end scene grid
+        endGameGrid.add(endGameResult, 2, 0);
+        endGameGrid.add(playerResult, 1, 0);
+        endGameGrid.add(computerResult, 3, 0);
+        endGameGrid.add(backGrounds.emptyPane(), 2, 1);
+        endGameGrid.add(backGrounds.paperBack(), 0, 2);
+        endGameGrid.add(backGrounds.rockBack(), 2, 2);
+        endGameGrid.add(backGrounds.scissorsBack(), 4, 2);
+        endGameGrid.add(endButtonsBox, 2, 4);
+
+        Scene endGameScene = new Scene(endGameGrid, 800, 450, Color.BLACK);
+        endStage.setScene(endGameScene);
+        endStage.setTitle("Rock Paper Scissors");
+        endStage.show();
+    }
+
+    public void printRulesPane() {
+
+    }
 }
