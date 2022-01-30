@@ -1,6 +1,5 @@
 package com.kodilla.rpsfx;
 
-import javafx.application.Platform;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -37,6 +35,7 @@ public class ScenesPainter {
     private DisplayOfChoices displayOfChoices = new DisplayOfChoices();
     private Game game = new Game();
     private BackGrounds backGrounds = new BackGrounds();
+    private QuitConfirmation quitConfirmation = new QuitConfirmation();
     private int computerPlay;
     private int playerPlay;
     TextField textField = new TextField();
@@ -154,18 +153,19 @@ public class ScenesPainter {
             }
         });
 
-        HBox numberOfRoondsButtonsBox = new HBox(3);
-        numberOfRoondsButtonsBox.getChildren().addAll(oneWinBtn, fiveWinBtn, tenWinBtn, infinityBtn);
+        HBox numberOfRoundsButtonsBox = new HBox(3);
+        numberOfRoundsButtonsBox.getChildren().addAll(oneWinBtn, fiveWinBtn, tenWinBtn, infinityBtn);
 
         Button exitBtn = new Button();
         exitBtn.setMinWidth(70);
         exitBtn.setText("Quit");
-        exitBtn.setOnAction((event) -> Platform.exit());
+        exitBtn.setOnAction((event) -> quitConfirmation.quitAreYouSure());
 
         Button rulesBtn = new Button();
         rulesBtn.setMinWidth(70);
         rulesBtn.setText("Rules");
-        rulesBtn.setOnAction((event) -> printRulesPane(primaryStage));
+        Rules rules = new Rules();
+        rulesBtn.setOnAction((event) -> rules.printRulesScene());
 
         HBox functionalButtonsBox = new HBox(3);
         functionalButtonsBox.getChildren().addAll(rulesBtn, exitBtn);
@@ -181,10 +181,9 @@ public class ScenesPainter {
         firstSceneGrid.add(textField, 1, 4);
         firstSceneGrid.addRow(5, backGrounds.emptyPane());
         firstSceneGrid.add(numberOfRoundsChoice, 1, 6);
-        firstSceneGrid.add(numberOfRoondsButtonsBox, 1, 7);
+        firstSceneGrid.add(numberOfRoundsButtonsBox, 1, 7);
         firstSceneGrid.addRow(8, backGrounds.emptyPane());
         firstSceneGrid.add(functionalButtonsBox, 1, 9);
-        //   firstSceneGrid.add(exitBtn, 1 , 9);
 
         Scene firstScene = new Scene(firstSceneGrid, 800, 450, Color.LIGHTBLUE);
 
@@ -253,10 +252,14 @@ public class ScenesPainter {
         Button quitBtn = new Button();
         quitBtn.setMinWidth(70);
         quitBtn.setText("Quit");
-        quitBtn.setOnAction((event) -> Platform.exit());
+        quitBtn.setOnAction((event) -> {
+            quitConfirmation.quitAreYouSure();
+            //Platform.exit()
+        });
 
         Button paperBtn = new Button();
-        paperBtn.setText("  Paper ");
+        paperBtn.setMinWidth(70);
+        paperBtn.setText("Paper");
         paperBtn.setOnAction((event) -> {
             playerPane.setBackground(displayOfChoices.paperDisplay());
             this.playerPlay = 2;
@@ -269,7 +272,8 @@ public class ScenesPainter {
         });
 
         Button rockBtn = new Button();
-        rockBtn.setText("  Rock  ");
+        rockBtn.setMinWidth(70);
+        rockBtn.setText("Rock");
         rockBtn.setOnAction((event) -> {
             playerPane.setBackground(displayOfChoices.rockDisplay());
             this.playerPlay = 1;
@@ -281,6 +285,7 @@ public class ScenesPainter {
         });
 
         Button scissorsBtn = new Button();
+        scissorsBtn.setMinWidth(70);
         scissorsBtn.setText("Scissors");
         scissorsBtn.setOnAction((event) -> {
             playerPane.setBackground(displayOfChoices.scissorsDisplay());
@@ -325,8 +330,7 @@ public class ScenesPainter {
         gameGrid.add(playerPane, 1, 3);
         gameGrid.add(computerPane, 5, 3);
 
-        Scene gameScene = new Scene(gameGrid, 800, 450, Color.LIGHTBLUE);
-        return gameScene;
+        return new Scene(gameGrid, 800, 450, Color.LIGHTBLUE);
     }
 
     //Method to create an end scene
@@ -357,7 +361,7 @@ public class ScenesPainter {
         Button endQuitGameBtn = new Button();
         endQuitGameBtn.setText("Quit");
         endQuitGameBtn.setMinWidth(70);
-        endQuitGameBtn.setOnAction((event) -> Platform.exit());
+        endQuitGameBtn.setOnAction((event) -> quitConfirmation.quitAreYouSure());
 
         //Box with buttons
         HBox endButtonsBox = new HBox(10);
@@ -378,34 +382,5 @@ public class ScenesPainter {
         endStage.setScene(endGameScene);
         endStage.setTitle("Rock Paper Scissors");
         endStage.show();
-    }
-
-    //Method to create a rules scene
-    public void printRulesPane(Stage rulesStage) {
-            Pane rulesPane = new Pane();
-            rulesPane.setBackground(backGrounds.getGameBackground());
-
-            Label rulesLabel = new Label();
-            rulesLabel.setFont(new Font("Arial", 15));
-            rulesLabel.setTextFill(Color.BLACK);
-            rulesLabel.setText(Rules.rulesPrinter());
-
-            Button backBtn = new Button();
-            backBtn.setText("Back");
-            backBtn.setMinWidth(70);
-            backBtn.setOnAction((event) -> {
-                rulesStage.setScene(firstScene);
-                rulesStage.setTitle("Rock Paper Scissors");
-                rulesStage.show();
-            });
-
-            VBox rulesBox = new VBox(10);
-            rulesBox.getChildren().addAll(rulesLabel, backBtn);
-            rulesPane.getChildren().add(rulesBox);
-
-            Scene rulesScene = new Scene(rulesPane, 800, 450, Color.LIGHTBLUE);
-            rulesStage.setScene(rulesScene);
-            rulesStage.setTitle("Rock Paper Scissors");
-            rulesStage.show();
     }
 }

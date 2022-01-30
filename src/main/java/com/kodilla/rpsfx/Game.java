@@ -1,9 +1,5 @@
 package com.kodilla.rpsfx;
 
-import javafx.stage.Stage;
-
-import java.util.Random;
-
 public class Game {
     private int numberOfPlayerWins = 0;
     private int numberOfComputerWins = 0;
