@@ -226,7 +226,7 @@ public class ScenesPainter {
             gameGrid.add(playerPane, 1, 3);
             gameGrid.add(computerPane, 5, 3);
 
-            Scene gameScene = new Scene(gameGrid, 800, 450, Color.BLACK);
+            Scene gameScene = new Scene(gameGrid, 800, 450, Color.LIGHTBLUE);
 
             //First Scene
             Label numberOfRoundsChoice = new Label("Choose the number of wins");
@@ -317,7 +317,7 @@ public class ScenesPainter {
             firstSceneGrid.add(functionalButtonsBox, 1, 9);
          //   firstSceneGrid.add(exitBtn, 1 , 9);
 
-            Scene firstScene = new Scene(firstSceneGrid, 800, 450, Color.BLACK);
+            Scene firstScene = new Scene(firstSceneGrid, 800, 450, Color.LIGHTBLUE);
 
             //Action triggered by a "New Game" button in the game grid
             newGameBtn.setOnAction((event) -> {
@@ -375,7 +375,7 @@ public class ScenesPainter {
         endGameGrid.add(backGrounds.scissorsBack(), 4, 2);
         endGameGrid.add(endButtonsBox, 2, 4);
 
-        Scene endGameScene = new Scene(endGameGrid, 800, 450, Color.BLACK);
+        Scene endGameScene = new Scene(endGameGrid, 800, 450, Color.LIGHTBLUE);
         endStage.setScene(endGameScene);
         endStage.setTitle("Rock Paper Scissors");
         endStage.show();
