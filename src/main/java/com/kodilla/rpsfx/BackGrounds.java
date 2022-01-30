@@ -3,6 +3,8 @@ package com.kodilla.rpsfx;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
+import java.io.IOException;
+
 public class BackGrounds {
     private Image whiteBack = new Image("file:src/main/resources/back_blue2.jpg");
     private Image chooseImage = new Image("file:src/main/resources/choose_back.png");
