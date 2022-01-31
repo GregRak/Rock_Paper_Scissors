@@ -32,7 +32,7 @@ public class RpsFXTestSuite {
     @Test
     void gamePlayDrawTest() {
         //Given
-        Game game = new Game();
+        Game game = new Game(0, 0, 0, "User", 0);
         int playerChoice = 1;
         int computerChoice = 1;
         String expectedResult = "   Draw!!!";
@@ -54,7 +54,7 @@ public class RpsFXTestSuite {
     void gamePlayPlayerWinTest() {
         //Given
         //Game conditions: 1 - rock, 2 - paper, 3 - scissors
-        Game game = new Game();
+        Game game = new Game(0, 0, 0, "User", 0);
         int playerChoiceOne = 1; //rock
         int playerChoiceTwo = 2; //paper
         int playerChoiceThree = 3; //scissors
@@ -86,7 +86,7 @@ public class RpsFXTestSuite {
     void gamePlayComputerWinTest() {
         //Given
         //Game conditions: 1 - rock, 2 - paper, 3 - scissors
-        Game game = new Game();
+        Game game = new Game(0, 0, 0, "User", 0);
         int playerChoiceOne = 1; //rock
         int playerChoiceTwo = 2; //paper
         int playerChoiceThree = 3; //scissors
@@ -115,7 +115,7 @@ public class RpsFXTestSuite {
     @Test
     void endGameTest() {
         //Given
-        Game game = new Game();
+        Game game = new Game(0, 0, 0, "User", 0);
         int playerChoiceOne = 1; //rock
         int playerChoiceTwo = 2; //paper
         int playerChoiceThree = 3; //scissors

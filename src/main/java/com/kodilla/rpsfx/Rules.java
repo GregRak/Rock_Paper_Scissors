@@ -32,7 +32,11 @@ public class Rules {
     public void printRulesScene() {
         Stage rulesStage = new Stage();
         Pane rulesPane = new Pane();
-        rulesPane.setBackground(backGrounds.getGameBackground());
+        try {
+            rulesPane.setBackground(backGrounds.getGameBackground());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Label rulesLabel = new Label();
         rulesLabel.setFont(new Font("Arial", 15));

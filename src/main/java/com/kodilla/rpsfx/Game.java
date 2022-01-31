@@ -1,12 +1,22 @@
 package com.kodilla.rpsfx;
 
-public class Game {
-    private int numberOfPlayerWins = 0;
-    private int numberOfComputerWins = 0;
-    private int numberOfRounds = 0;
+import java.io.Serializable;
+
+public class Game implements Serializable {
+    private int numberOfPlayerWins;
+    private int numberOfComputerWins;
+    private int numberOfRounds;
     private String playerName;
     private int numberOfWinsToEnd;
     String result = "";
+
+    public Game(int numberOfPlayerWins, int numberOfComputerWins, int numberOfRounds, String playerName, int numberOfWinsToEnd) {
+        this.numberOfPlayerWins = numberOfPlayerWins;
+        this.numberOfComputerWins = numberOfComputerWins;
+        this.numberOfRounds = numberOfRounds;
+        this.playerName = playerName;
+        this.numberOfWinsToEnd = numberOfWinsToEnd;
+    }
 
     public void setNumberOfPlayerWins(int numberOfPlayerWins) {
         this.numberOfPlayerWins = numberOfPlayerWins;

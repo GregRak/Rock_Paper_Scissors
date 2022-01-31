@@ -14,6 +14,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.util.Map;
 import java.util.Random;
 
 public class ScenesPainter {
@@ -33,7 +35,7 @@ public class ScenesPainter {
     private Pane playerPane = new Pane();
     private Random generator = new Random();
     private DisplayOfChoices displayOfChoices = new DisplayOfChoices();
-    private Game game = new Game();
+    private Game game = new Game(0, 0, 0, "", 0);
     private BackGrounds backGrounds = new BackGrounds();
     private QuitConfirmation quitConfirmation = new QuitConfirmation();
     private int computerPlay;
@@ -72,7 +74,11 @@ public class ScenesPainter {
         playerResult.setText(game.numberOfPlayerWinsToString());
         computerResult.setText(game.numberOfComputerWinsToString());
         numberOfRoundLabel.setText("Round: " + game.numberOfRoundsToString());
-        playerPane.setBackground(backGrounds.choosePane());
+        try {
+            playerPane.setBackground(backGrounds.choosePane());
+        } catch(Exception e) {
+            System.out.println("Error!");
+        }
         computerPane.setBackground(backGrounds.computerChoosePane());
         resultPrintOut.setText("");
     }
@@ -167,8 +173,30 @@ public class ScenesPainter {
         Rules rules = new Rules();
         rulesBtn.setOnAction((event) -> rules.printRulesScene());
 
+        Button loadBtn = new Button();
+        loadBtn.setMinWidth(70);
+        loadBtn.setText("Load");
+        loadBtn.setOnAction((e) -> {
+            resultsReset();
+            SaveGame saveGame = new SaveGame();
+            saveGame.loadGame();
+            Map<Integer, Game> currentMap = saveGame.map;
+            for(Map.Entry<Integer, Game> entry:currentMap.entrySet()) {
+                game.setNumberOfPlayerWins(entry.getValue().getNumberOfPlayerWins());
+                game.setNumberOfComputerWins(entry.getValue().getNumberOfComputerWins());
+                game.setNumberOfWinsToEnd(entry.getValue().getNumberOfWinsToEnd());
+                game.setNumberOfRounds(entry.getValue().getNumberOfRounds());
+                game.setPlayerName(entry.getValue().getPlayerName());
+            }
+            playerLabel.setText(game.getPlayerName());
+            numberOfRoundLabel.setText("Round: " + game.getNumberOfRounds());
+            primaryStage.setScene(paintGameScene(primaryStage));
+            primaryStage.setTitle("Rock Paper Scissors");
+            primaryStage.show();
+        });
+
         HBox functionalButtonsBox = new HBox(3);
-        functionalButtonsBox.getChildren().addAll(rulesBtn, exitBtn);
+        functionalButtonsBox.getChildren().addAll(rulesBtn, exitBtn, loadBtn);
         functionalButtonsBox.setAlignment(Pos.CENTER);
 
         //adding elements to the first scene grid
@@ -237,7 +265,8 @@ public class ScenesPainter {
 
         //Buttons
         Button newGameBtn = new Button();
-        newGameBtn.setText("New Game");
+        newGameBtn.setText("New");
+        newGameBtn.setMinWidth(60);
         newGameBtn.setOnAction((event) -> {
             primaryStage.setScene(firstScene);
             primaryStage.setTitle("Rock Paper Scissors");
@@ -246,15 +275,21 @@ public class ScenesPainter {
 
         Button resetBtn = new Button();
         resetBtn.setText("Reset");
-        resetBtn.setMinWidth(70);
+        resetBtn.setMinWidth(60);
         resetBtn.setOnAction((event) -> resultsReset());
 
         Button quitBtn = new Button();
-        quitBtn.setMinWidth(70);
+        quitBtn.setMinWidth(60);
         quitBtn.setText("Quit");
-        quitBtn.setOnAction((event) -> {
-            quitConfirmation.quitAreYouSure();
-            //Platform.exit()
+        quitBtn.setOnAction((event) -> quitConfirmation.quitAreYouSure());
+
+        Button saveBtn = new Button();
+        saveBtn.setMinWidth(60);
+        saveBtn.setText("Save");
+        saveBtn.setOnAction((e) -> {
+            Integer user = 0;
+            SaveGame saveGame = new SaveGame();
+            saveGame.saveGame(user, game);
         });
 
         Button paperBtn = new Button();
@@ -300,7 +335,7 @@ public class ScenesPainter {
         //Arrangement of the player's choice buttons
         GridPane gameButtonsGrid = new GridPane();
         gameButtonsGrid.setAlignment(Pos.CENTER);
-        gameButtonsGrid.setHgap(20.0);
+        gameButtonsGrid.setHgap(12.0);
         gameButtonsGrid.add(paperBtn, 0, 0);
         gameButtonsGrid.add(rockBtn, 1, 0);
         gameButtonsGrid.add(scissorsBtn, 2, 0);
@@ -308,10 +343,11 @@ public class ScenesPainter {
         //Arrangement of the functional buttons
         GridPane buttonsGrid = new GridPane();
         buttonsGrid.setAlignment(Pos.TOP_LEFT);
-        buttonsGrid.setHgap(17.0);
+        buttonsGrid.setHgap(10.0);
         buttonsGrid.add(newGameBtn, 0, 0);
         buttonsGrid.add(resetBtn, 1, 0);
         buttonsGrid.add(quitBtn, 2, 0);
+        buttonsGrid.add(saveBtn, 3, 0);
 
         //adding elements to the game grid
         gameGrid.add(playerLabel, 0, 1);
