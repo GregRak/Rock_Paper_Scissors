@@ -46,13 +46,27 @@ public class ScenesPainter {
     //Computer "choice" printing method
     public void computerPlayPrinter() {
         int computerPlay = (generator.nextInt(3)) + 1;
-        System.out.println(computerPlay);
         if (computerPlay == 1) {
-            computerPane.setBackground(displayOfChoices.rockDisplay());
+            try {
+                computerPane.setBackground(displayOfChoices.rockDisplay());
+            } catch(Exception e) {
+                Label rockExceptionLabel = new Label("File: rock.png not found");
+                computerPane.getChildren().add(rockExceptionLabel);
+            }
         } else if (computerPlay == 2) {
-            computerPane.setBackground(displayOfChoices.paperDisplay());
+            try {
+                computerPane.setBackground(displayOfChoices.paperDisplay());
+            } catch(Exception e) {
+                Label paperExceptionLabel = new Label("File: paper.png not found");
+                computerPane.getChildren().add(paperExceptionLabel);
+            }
         } else {
-            computerPane.setBackground(displayOfChoices.scissorsDisplay());
+            try {
+                computerPane.setBackground(displayOfChoices.scissorsDisplay());
+            } catch(Exception e) {
+                Label scissorsExceptionLabel = new Label("File: scissors.png not found");
+                computerPane.getChildren().add(scissorsExceptionLabel);
+            }
         }
         this.computerPlay = computerPlay;
     }
@@ -291,7 +305,12 @@ public class ScenesPainter {
         paperBtn.setMinWidth(70);
         paperBtn.setText("Paper");
         paperBtn.setOnAction((event) -> {
-            playerPane.setBackground(displayOfChoices.paperDisplay());
+            try {
+                playerPane.setBackground(displayOfChoices.paperDisplay());
+            } catch(Exception e) {
+                Label paperExceptionLabel = new Label("File: paper.png not found");
+                playerPane.getChildren().add(paperExceptionLabel);
+            }
             this.playerPlay = 2;
             computerPlayPrinter();
             gamePlayAndResultPrinter();
@@ -304,7 +323,12 @@ public class ScenesPainter {
         rockBtn.setMinWidth(70);
         rockBtn.setText("Rock");
         rockBtn.setOnAction((event) -> {
-            playerPane.setBackground(displayOfChoices.rockDisplay());
+            try {
+                playerPane.setBackground(displayOfChoices.rockDisplay());
+            } catch(Exception e) {
+                Label rockExceptionLabel = new Label("File: rock.png not found");
+                playerPane.getChildren().add(rockExceptionLabel);
+            }
             this.playerPlay = 1;
             computerPlayPrinter();
             gamePlayAndResultPrinter();
@@ -317,7 +341,12 @@ public class ScenesPainter {
         scissorsBtn.setMinWidth(70);
         scissorsBtn.setText("Scissors");
         scissorsBtn.setOnAction((event) -> {
-            playerPane.setBackground(displayOfChoices.scissorsDisplay());
+            try {
+                playerPane.setBackground(displayOfChoices.scissorsDisplay());
+            } catch(Exception e) {
+                Label scissorsExceptionLabel = new Label("File: scissors.png not found");
+                playerPane.getChildren().add(scissorsExceptionLabel);
+            }
             this.playerPlay = 3;
             computerPlayPrinter();
             gamePlayAndResultPrinter();

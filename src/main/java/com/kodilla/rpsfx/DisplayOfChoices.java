@@ -9,17 +9,26 @@ public class DisplayOfChoices {
     private final Image scissors = new Image("file:src/main/resources/scissors.png");
     private final BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
 
-    public Background paperDisplay() {
+    public Background paperDisplay() throws Exception {
+        if(paper.isError()){
+            throw new Exception();
+        }
         BackgroundImage backgroundImage = new BackgroundImage(paper, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         return new Background(backgroundImage);
     }
 
-    public Background rockDisplay() {
+    public Background rockDisplay() throws Exception {
+        if(rock.isError()) {
+            throw new Exception();
+        }
         BackgroundImage backgroundImage = new BackgroundImage(rock, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         return new Background(backgroundImage);
     }
 
-    public Background scissorsDisplay() {
+    public Background scissorsDisplay() throws Exception {
+        if(scissors.isError()) {
+            throw new Exception();
+        }
         BackgroundImage backgroundImage = new BackgroundImage(scissors, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
         return new Background(backgroundImage);
     }

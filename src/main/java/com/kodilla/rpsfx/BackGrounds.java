@@ -1,5 +1,6 @@
 package com.kodilla.rpsfx;
 
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 
@@ -28,21 +29,36 @@ public class BackGrounds {
     public Pane paperBack() {
         Pane paperPane = new Pane();
         paperPane.setPrefSize(200, 200);
-        paperPane.setBackground(displayOfChoices.paperDisplay());
+        try {
+            paperPane.setBackground(displayOfChoices.paperDisplay());
+        } catch(Exception e) {
+            Label paperExceptionLabel = new Label("File: paper.png not found");
+            paperPane.getChildren().add(paperExceptionLabel);
+        }
         return paperPane;
     }
 
     public Pane rockBack() {
         Pane rockPane = new Pane();
         rockPane.setPrefSize(200, 200);
-        rockPane.setBackground(displayOfChoices.rockDisplay());
+        try {
+            rockPane.setBackground(displayOfChoices.rockDisplay());
+        } catch(Exception e) {
+            Label rockExceptionLabel = new Label("File: rock.png not found");
+            rockPane.getChildren().add(rockExceptionLabel);
+        }
         return rockPane;
     }
 
     public Pane scissorsBack() {
         Pane scissorsPane = new Pane();
         scissorsPane.setPrefSize(200, 200);
-        scissorsPane.setBackground(displayOfChoices.scissorsDisplay());
+        try {
+            scissorsPane.setBackground(displayOfChoices.scissorsDisplay());
+        } catch(Exception e) {
+            Label scissorsExceptionLabel = new Label("File: rock.png not found");
+            scissorsPane.getChildren().add(scissorsExceptionLabel);
+        }
         return scissorsPane;
     }
 
