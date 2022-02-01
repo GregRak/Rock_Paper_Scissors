@@ -12,12 +12,6 @@ public class SaveGame {
     public void saveGame(Integer s, Game game) {
         Map<Integer, Game> currentMap = new HashMap<>();
         currentMap.put(s, game);
-//        for(Map.Entry<Integer, Game> entry:currentMap.entrySet()) {
-//            System.out.println(entry.getValue().getNumberOfPlayerWins() +
-//                    ";" + entry.getValue().getNumberOfWinsToEnd() +
-//                    ";" + entry.getValue().getNumberOfComputerWins() +
-//                    ";" + entry.getValue().getNumberOfRounds());
-//        }
         try{
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(savedHashMap));
             oos.writeObject(currentMap);
@@ -35,10 +29,6 @@ public class SaveGame {
                 map.putAll((HashMap) readMap);
                 this.map = (Map<Integer, Game>) readMap;
                 for(Map.Entry<Integer, Game> entry:map.entrySet()) {
-//                    System.out.println(entry.getValue().getNumberOfPlayerWins() +
-//                            ";" + entry.getValue().getNumberOfWinsToEnd() +
-//                            ";" + entry.getValue().getNumberOfComputerWins() +
-//                            ";" + entry.getValue().getNumberOfRounds());
                     Game game = new Game(0, 0, 0, "", 0);
                     game.setNumberOfPlayerWins(entry.getValue().getNumberOfPlayerWins());
                     game.setNumberOfComputerWins(entry.getValue().getNumberOfComputerWins());

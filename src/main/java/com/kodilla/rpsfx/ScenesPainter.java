@@ -14,21 +14,21 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
 import java.util.Map;
 import java.util.Random;
 
 public class ScenesPainter {
 
-    private final Label titleLabel = new Label("Paper Rock Scissors");
-    private final Label enterName = new Label("Enter your Name (max. 8 chars)");
+    private static final Label TITLE_LABEL = new Label("Paper Rock Scissors");
+    private static final Label ENTER_NAME = new Label("Enter your Name (max. 8 chars)");
     private Label playerLabel = new Label();
-    private final Label computerLabel = new Label("Computer");
-    private final Label result = new Label("Result");
+    private static final Label COMPUTER_LABEL = new Label("Computer");
+    private static final Label RESULT = new Label("Result");
     private Label playerResult = new Label();
     private Label computerResult = new Label();
     private Label numberOfRoundLabel = new Label("Round: 0");
     private Label resultPrintOut = new Label();
+    private Label endGameResult = new Label();
     private final ImageView playerAvatar = new ImageView("file:src/main/resources/face_2.png");
     private final ImageView computerAvatar = new ImageView("file:src/main/resources/computer_2.png");
     private Pane computerPane = new Pane();
@@ -41,7 +41,6 @@ public class ScenesPainter {
     private int computerPlay;
     private int playerPlay;
     TextField textField = new TextField();
-    private Label endGameResult = new Label();
     private Scene firstScene;
 
     //Computer "choice" printing method
@@ -100,11 +99,17 @@ public class ScenesPainter {
         }
     }
 
+    public void gameSceneSetter(Stage primaryStage) {
+        primaryStage.setScene(paintGameScene(primaryStage));
+        primaryStage.setTitle("Rock Paper Scissors");
+        primaryStage.show();
+    }
+
     //Method to create a title scene
     public void paintFirstScene(Stage primaryStage){
         Label numberOfRoundsChoice = new Label("Choose the number of wins");
-        titleLabel.setFont(new Font("Arial", 25));
-        titleLabel.setTextFill(Color.BLACK);
+        TITLE_LABEL.setFont(new Font("Arial", 25));
+        TITLE_LABEL.setTextFill(Color.BLACK);
 
         GridPane firstSceneGrid = new GridPane();
         firstSceneGrid.setBackground(backGrounds.getGameBackground());
@@ -117,9 +122,7 @@ public class ScenesPainter {
         oneWinBtn.setOnAction((event) -> {
             if (startGame()) {
                 game.setNumberOfWinsToEnd(1);
-                primaryStage.setScene(paintGameScene(primaryStage));
-                primaryStage.setTitle("Rock Paper Scissors");
-                primaryStage.show();
+                gameSceneSetter(primaryStage);
             }
         });
 
@@ -129,9 +132,7 @@ public class ScenesPainter {
         fiveWinBtn.setOnAction((event) -> {
             if (startGame()) {
                 game.setNumberOfWinsToEnd(5);
-                primaryStage.setScene(paintGameScene(primaryStage));
-                primaryStage.setTitle("Rock Paper Scissors");
-                primaryStage.show();
+                gameSceneSetter(primaryStage);
             }
         });
 
@@ -141,9 +142,7 @@ public class ScenesPainter {
         tenWinBtn.setOnAction((event) -> {
             if (startGame()) {
                 game.setNumberOfWinsToEnd(10);
-                primaryStage.setScene(paintGameScene(primaryStage));
-                primaryStage.setTitle("Rock Paper Scissors");
-                primaryStage.show();
+                gameSceneSetter(primaryStage);
             }
         });
 
@@ -153,9 +152,7 @@ public class ScenesPainter {
         infinityBtn.setOnAction((event) -> {
             if (startGame()) {
                 game.setNumberOfWinsToEnd(Integer.MAX_VALUE);
-                primaryStage.setScene(paintGameScene(primaryStage));
-                primaryStage.setTitle("Rock Paper Scissors");
-                primaryStage.show();
+                gameSceneSetter(primaryStage);
             }
         });
 
@@ -190,9 +187,7 @@ public class ScenesPainter {
             }
             playerLabel.setText(game.getPlayerName());
             numberOfRoundLabel.setText("Round: " + game.getNumberOfRounds());
-            primaryStage.setScene(paintGameScene(primaryStage));
-            primaryStage.setTitle("Rock Paper Scissors");
-            primaryStage.show();
+            gameSceneSetter(primaryStage);
         });
 
         HBox functionalButtonsBox = new HBox(3);
@@ -203,9 +198,9 @@ public class ScenesPainter {
         firstSceneGrid.add(backGrounds.paperBack(), 0, 0);
         firstSceneGrid.add(backGrounds.rockBack(), 1, 0);
         firstSceneGrid.add(backGrounds.scissorsBack(), 2, 0);
-        firstSceneGrid.add(titleLabel, 1, 1);
+        firstSceneGrid.add(TITLE_LABEL, 1, 1);
         firstSceneGrid.addRow(2, backGrounds.emptyPane()); //emptyPane size to modify
-        firstSceneGrid.add(enterName, 1, 3);
+        firstSceneGrid.add(ENTER_NAME, 1, 3);
         firstSceneGrid.add(textField, 1, 4);
         firstSceneGrid.addRow(5, backGrounds.emptyPane());
         firstSceneGrid.add(numberOfRoundsChoice, 1, 6);
@@ -236,12 +231,12 @@ public class ScenesPainter {
         playerLabel.setTextFill(Color.AQUAMARINE);
         playerLabel.setMinWidth(70);
 
-        computerLabel.setFont(new Font("Arial", 15));
-        computerLabel.setTextFill(Color.BLACK);
-        computerLabel.setMinWidth(70);
+        COMPUTER_LABEL.setFont(new Font("Arial", 15));
+        COMPUTER_LABEL.setTextFill(Color.BLACK);
+        COMPUTER_LABEL.setMinWidth(70);
 
-        result.setFont(new Font("Arial", 17));
-        result.setTextFill(Color.YELLOW);
+        RESULT.setFont(new Font("Arial", 17));
+        RESULT.setTextFill(Color.YELLOW);
 
         playerResult.setFont(new Font("Arial", 20));
         playerResult.setTextFill(Color.YELLOW);
@@ -300,7 +295,6 @@ public class ScenesPainter {
             this.playerPlay = 2;
             computerPlayPrinter();
             gamePlayAndResultPrinter();
-            System.out.println(game.getNumberOfWinsToEnd());
             if (game.getNumberOfPlayerWins() == game.getNumberOfWinsToEnd() || game.getNumberOfComputerWins() == game.getNumberOfWinsToEnd()) {
                 endGame(primaryStage);
             }
@@ -351,8 +345,8 @@ public class ScenesPainter {
 
         //adding elements to the game grid
         gameGrid.add(playerLabel, 0, 1);
-        gameGrid.add(computerLabel, 6, 1);
-        gameGrid.add(result, 3, 1);
+        gameGrid.add(COMPUTER_LABEL, 6, 1);
+        gameGrid.add(RESULT, 3, 1);
         gameGrid.add(playerResult, 2, 1);
         gameGrid.add(computerResult, 4, 1);
         gameGrid.add(playerAvatar, 1, 1);
