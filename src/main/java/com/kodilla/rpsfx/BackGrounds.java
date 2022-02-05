@@ -9,7 +9,7 @@ public class BackGrounds {
     private final Image chooseImage = new Image("file:src/main/resources/choose_back.png");
     private final Image blank = new Image("file:src/main/resources/blank.png");
     private final BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
-    private DisplayOfChoices displayOfChoices = new DisplayOfChoices();
+    private final DisplayOfChoices displayOfChoices = new DisplayOfChoices();
 
     public Background getGameBackground()  {
             BackgroundImage backgroundImage = new BackgroundImage(windowBack, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);

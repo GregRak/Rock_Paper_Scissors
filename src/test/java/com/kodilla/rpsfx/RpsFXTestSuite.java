@@ -113,18 +113,23 @@ public class RpsFXTestSuite {
     }
 
     @Test
-    void endGameTest() {
+    void saveAndLoadGameTest() {
         //Given
-        Game game = new Game(0, 0, 0, "User", 0);
-        int playerChoiceOne = 1; //rock
-        int playerChoiceTwo = 2; //paper
-        int playerChoiceThree = 3; //scissors
-        int computerChoiceOne = 1; //rock
-        int computerChoiceTwo = 2; //paper
-        int computerChoiceThree = 3; //scissors
-        String expectedResult = "  You win!!!";
+        Game game = new Game(5, 4, 12, "User", 10);
+        SaveAndLoadGame saveAndLoadGame = new SaveAndLoadGame();
+        int numberOfPlayerWinsExpected = 5;
+        int numberOfComputerWinsExpected = 4;
+        int numberOfRoundsExpected = 12;
+        String playerNameExpected = "User";
+        int numberOfWinsToEndExpected = 10;
         //When
-        String resultOne = game.gamePlay(playerChoiceOne, computerChoiceTwo);
+        saveAndLoadGame.saveGame(0, game);
+        saveAndLoadGame.loadGame();
         //Then
+        assertEquals(numberOfPlayerWinsExpected, game.getNumberOfPlayerWins());
+        assertEquals(numberOfComputerWinsExpected, game.getNumberOfComputerWins());
+        assertEquals(numberOfRoundsExpected, game.getNumberOfRounds());
+        assertEquals(playerNameExpected, game.getPlayerName());
+        assertEquals(numberOfWinsToEndExpected, game.getNumberOfWinsToEnd());
     }
 }

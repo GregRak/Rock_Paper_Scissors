@@ -87,11 +87,7 @@ public class ScenesPainter {
         playerResult.setText(game.numberOfPlayerWinsToString());
         computerResult.setText(game.numberOfComputerWinsToString());
         numberOfRoundLabel.setText("Round: " + game.numberOfRoundsToString());
-        try {
-            playerPane.setBackground(backGrounds.choosePane());
-        } catch(Exception e) {
-            System.out.println("Error!");
-        }
+        playerPane.setBackground(backGrounds.choosePane());
         computerPane.setBackground(backGrounds.computerChoosePane());
         resultPrintOut.setText("");
     }
@@ -189,9 +185,9 @@ public class ScenesPainter {
         loadBtn.setText("Load");
         loadBtn.setOnAction((e) -> {
             resultsReset();
-            SaveGame saveGame = new SaveGame();
-            saveGame.loadGame();
-            Map<Integer, Game> currentMap = saveGame.map;
+            SaveAndLoadGame saveAndLoadGame = new SaveAndLoadGame();
+            saveAndLoadGame.loadGame();
+            Map<Integer, Game> currentMap = saveAndLoadGame.map;
             for(Map.Entry<Integer, Game> entry:currentMap.entrySet()) {
                 game.setNumberOfPlayerWins(entry.getValue().getNumberOfPlayerWins());
                 game.setNumberOfComputerWins(entry.getValue().getNumberOfComputerWins());
@@ -297,8 +293,8 @@ public class ScenesPainter {
         saveBtn.setText("Save");
         saveBtn.setOnAction((e) -> {
             Integer user = 0;
-            SaveGame saveGame = new SaveGame();
-            saveGame.saveGame(user, game);
+            SaveAndLoadGame saveAndLoadGame = new SaveAndLoadGame();
+            saveAndLoadGame.saveGame(user, game);
         });
 
         Button paperBtn = new Button();

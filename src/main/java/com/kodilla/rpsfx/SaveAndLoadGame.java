@@ -4,9 +4,9 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SaveGame {
+public class SaveAndLoadGame {
 
-    File savedHashMap = new File("save.list");
+    final File savedHashMap = new File("save.list");
     Map<Integer, Game> map = new HashMap<>();
 
     public void saveGame(Integer s, Game game) {
@@ -28,14 +28,6 @@ public class SaveGame {
             if (readMap instanceof HashMap) {
                 map.putAll((HashMap) readMap);
                 this.map = (Map<Integer, Game>) readMap;
-                for(Map.Entry<Integer, Game> entry:map.entrySet()) {
-                    Game game = new Game(0, 0, 0, "", 0);
-                    game.setNumberOfPlayerWins(entry.getValue().getNumberOfPlayerWins());
-                    game.setNumberOfComputerWins(entry.getValue().getNumberOfComputerWins());
-                    game.setNumberOfWinsToEnd(entry.getValue().getNumberOfWinsToEnd());
-                    game.setNumberOfRounds(entry.getValue().getNumberOfRounds());
-                    game.setPlayerName(entry.getValue().getPlayerName());
-                }
             }
             ois.close();
         } catch(Exception e) {

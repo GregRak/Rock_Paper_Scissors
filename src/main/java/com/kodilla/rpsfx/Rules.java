@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 public class Rules {
 
-    BackGrounds backGrounds = new BackGrounds();
+    final BackGrounds backGrounds = new BackGrounds();
 
     public static String rulesPrinter() {
         return "Now we will introduce you to the rules of the game:" +
@@ -32,11 +32,7 @@ public class Rules {
     public void printRulesScene() {
         Stage rulesStage = new Stage();
         Pane rulesPane = new Pane();
-        try {
-            rulesPane.setBackground(backGrounds.getGameBackground());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        rulesPane.setBackground(backGrounds.getGameBackground());
 
         Label rulesLabel = new Label();
         rulesLabel.setFont(new Font("Arial", 15));
