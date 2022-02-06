@@ -11,7 +11,7 @@ public class RockPaperScissors extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        ScenesPainter scenesPainter = new ScenesPainter();
-        scenesPainter.paintFirstScene(primaryStage);
+        FirstScenePainter firstScenePainter = new FirstScenePainter();
+        firstScenePainter.paintFirstScene(primaryStage);
     }
 }
